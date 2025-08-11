@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Scoring System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .perfect {
+            background-color: #27ae60;
+            color: white;
+        }
+        .good {
+            background-color: #f1c40f;
+        }
+        .poor {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .suggestions {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 4px;
+            background-color: #3498db;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+        .criteria {
+            margin-top: 20px;
+        }
+        .criteria-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .criteria-check {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .criteria-missing {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">Home</a> | 
+        <a href="generator.html">Markdown Generator</a> | 
+        <a href="scoring.html">Scoring System</a>
+    </div>
+    
+    <div class="container">
+        <h1>Documentation Scoring System</h1>
+        <p>Paste your markdown content below to get a quality score and improvement suggestions.</p>
+        
+        <textarea id="markdownContent" placeholder="Paste your markdown content here..."></textarea>
+        
+        <button onclick="scoreDocument()">Score This Documentation</button>
+        
+        <div id="results" style="display: none;">
+            <div id="scoreDisplay" class="score-display"></div>
+            
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            
+            <div class="criteria">
+                <h3>Scoring Criteria:</h3>
+                <div id="criteriaList"></div>
+            </div>
+            
+            <h3>Suggestions for Improvement:</h3>
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+    </div>
+
+    <script>
+        function scoreDocument() {
+            const fileContents = document.getElementById('markdownContent').value;
+            const readmeLength = fileContents.length;
+            const containsBuild = fileContents.toLowerCase().includes('build');
+            const containsDeploy = fileContents.toLowerCase().includes('deploy');
+            
+            let score = 0;
+            let suggestions = "";
+            const criteriaList = [];
+            
+            // Length-based scoring
+            if (readmeLength > 0) {
+                score += 1;
+                criteriaList.push({text: "Documentation exists", met: true});
+            } else {
+                criteriaList.push({text: "Documentation exists", met: false});
+            }
+            
+            if (readmeLength > 1000) {
+                score += 1;
+                criteriaList.push({text: "Length > 1000 characters", met: true});
+            } else {
+                criteriaList.push({text: "Length > 1000 characters", met: false});
+            }
+            
+            if (readmeLength >= 3000) {
+                score += 1;
+                criteriaList.push({text: "Length >= 3000 characters (optimal)", met: true});
+            } else {
+                criteriaList.push({text: "Length >= 3000 characters (optimal)", met: false});
+            }
+            
+            // If not optimal length, suggest improvements
+            if (readmeLength < 3000) {
+                const charsNeeded = 3000 - readmeLength;
+                const percentageIncrease = (charsNeeded / 3000) * 100;
+                suggestions += `Current README length is ${readmeLength} characters.\n`;
+                suggestions += `To achieve the optimal length of 3000 characters, consider adding ${charsNeeded} more.\n`;
+                suggestions += `This represents a ${percentageIncrease.toFixed(2)}% increase in content.\n\n`;
+            }
+            
+            // Build keyword check
+            if (containsBuild) {
+                score += 1;
+                criteriaList.push({text: "Contains 'build' instructions", met: true});
+            } else {
+                suggestions += "Include the word 'build' (for build instructions).\n";
+                criteriaList.push({text: "Contains 'build' instructions", met: false});
+            }
+            
+            // Deploy keyword check
+            if (containsDeploy) {
+                score += 1;
+                criteriaList.push({text: "Contains 'deploy' instructions", met: true});
+            } else {
+                suggestions += "Include the word 'deploy' (for deployment instructions).\n";
+                criteriaList.push({text: "Contains 'deploy' instructions", met: false});
+            }
+            
+            // Display results
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultsDiv = document.getElementById('results');
+            const suggestionsDiv = document.getElementById('suggestions');
+            const progressBar = document.getElementById('progressBar');
+            const criteriaListDiv = document.getElementById('criteriaList');
+            
+            // Calculate percentage for progress bar
+            const percentage = (score / 5) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressBar.textContent = `${percentage.toFixed(0)}%`;
+            
+            // Set score display
+            scoreDisplay.textContent = `Score: ${score}/5`;
+            
+            if (score === 5) {
+                scoreDisplay.className = "score-display perfect";
+                suggestionsDiv.textContent = "Perfect score! Your documentation meets all our quality criteria.";
+            } else if (score >= 3) {
+                scoreDisplay.className = "score-display good";
+            } else {
+                scoreDisplay.className = "score-display poor";
+            }
+            
+            // Display criteria
+            criteriaListDiv.innerHTML = '';
+            criteriaList.forEach(criteria => {
+                const div = document.createElement('div');
+                div.className = 'criteria-item';
+                div.innerHTML = `<span>${criteria.text}</span> <span class="${criteria.met ? 'criteria-check' : 'criteria-missing'}">${criteria.met ? '✓' : '✗'}</span>`;
+                criteriaListDiv.appendChild(div);
+            });
+            
+            // Display suggestions if not perfect
+            if (score < 5) {
+                suggestionsDiv.textContent = suggestions || "No specific suggestions, but there's room for improvement!";
+            }
+            
+            // Show results
+            resultsDiv.style.display = 'block';
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

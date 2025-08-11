@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .markdown-output {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            display: none;
+        }
+        .form-group {
+            display: grid;
+            gap: 5px;
+        }
+        .multi-field {
+            display: grid;
+            gap: 10px;
+        }
+        .add-btn {
+            background-color: #27ae60;
+            width: fit-content;
+        }
+        .add-btn:hover {
+            background-color: #219653;
+        }
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .badge-input {
+            display: flex;
+            gap: 5px;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        .section-divider {
+            border-top: 1px dashed #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">Home</a> | 
+        <a href="generator.html">Markdown Generator</a> | 
+        <a href="scoring.html">Scoring System</a>
+    </div>
+    
+    <div class="container">
+        <h1>Comprehensive Markdown Generator</h1>
+        <form id="markdownForm">
+            <h2>Basic Information</h2>
+            <div class="form-group">
+                <label for="projectName" class="required">Project Name</label>
+                <input type="text" id="projectName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectDescription" class="required">Project Description (About The Project)</label>
+                <textarea id="projectDescription" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="problemSolved" class="required">Problem it solves or its primary goal</label>
+                <textarea id="problemSolved" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="targetUsers" class="required">Target users or domain</label>
+                <input type="text" id="targetUsers" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="backgroundContext">Any important background or context</label>
+                <textarea id="backgroundContext"></textarea>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <h3>Badges</h3>
+            <div id="badgesContainer" class="multi-field">
+                <div class="badge-container">
+                    <div class="badge-input">
+                        <input type="text" class="badgeName" placeholder="Badge name (e.g., Build)">
+                        <input type="text" class="badgeUrl" placeholder="Badge URL">
+                        <input type="text" class="badgeImageUrl" placeholder="Badge image URL">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addBadgeField()">+ Add Badge</button>
+            
+            <div class="section-divider"></div>
+            
+            <h3>Features</h3>
+            <div id="featuresContainer" class="multi-field">
+                <div class="form-group">
+                    <input type="text" class="feature" placeholder="Feature description">
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addFeatureField()">+ Add Feature</button>
+            
+            <h3>Built With</h3>
+            <div id="techStackContainer" class="multi-field">
+                <div class="form-group">
+                    <input type="text" class="techStack" placeholder="Technology name">
+                    <input type="text" class="techLink" placeholder="Technology URL">
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addTechStackField()">+ Add Technology</button>
+            
+            <div class="section-divider"></div>
+            
+            <h2>Getting Started</h2>
+            <h3>Prerequisites</h3>
+            <div id="prerequisitesContainer" class="multi-field">
+                <div class="form-group">
+                    <input type="text" class="prerequisite" placeholder="Prerequisite (e.g., Node.js >= 18)">
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addPrerequisiteField()">+ Add Prerequisite</button>
+            
+            <div class="form-group">
+                <label for="installationSteps">Installation Steps</label>
+                <textarea id="installationSteps" placeholder="Step-by-step commands to get the project running"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="confluencePages">Confluence Pages (optional)</label>
+                <textarea id="confluencePages" placeholder="Add links or information about Confluence pages"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="jenkinsBuild">Build Jenkins Steps</label>
+                <textarea id="jenkinsBuild" placeholder="steps to build the application"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="jenkinsDeploy">Deploy Jenkins Steps</label>
+                <textarea id="jenkinsDeploy" placeholder="steps to deploy the application"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="localBuild">Build Local Steps (optional)</label>
+                <textarea id="localBuild" placeholder="steps to build the application locally"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="localDeploy">Deploy Local Steps (optional)</label>
+                <textarea id="localDeploy" placeholder="steps to deploy the application locally"></textarea>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <h2>Additional Documentation</h2>
+            <div class="form-group">
+                <label for="screenshots">Screenshots/Demo</label>
+                <textarea id="screenshots" placeholder="Add Markdown for screenshots or demo links"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="apiDocumentation">API Documentation</label>
+                <textarea id="apiDocumentation" placeholder="Describe API endpoints or link to API docs"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="configuration">Configuration</label>
+                <textarea id="configuration" placeholder="Environment variables, config files, etc."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="runningTests">Running Tests</label>
+                <textarea id="runningTests" placeholder="How to run tests"></textarea>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <h2>Project Governance</h2>
+            <div class="form-group">
+                <label for="contributing">Contributing Guidelines</label>
+                <textarea id="contributing" placeholder="How to contribute to the project"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="codeOfConduct">Code of Conduct</label>
+                <textarea id="codeOfConduct" placeholder="Link to or describe code of conduct"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="license">License</label>
+                <input type="text" id="license" placeholder="e.g., MIT, Apache 2.0">
+            </div>
+            
+            <div class="form-group">
+                <label for="acknowledgments">Acknowledgments</label>
+                <textarea id="acknowledgments" placeholder="Credit contributors, libraries, etc."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="roadmap">Roadmap/Future Features</label>
+                <textarea id="roadmap" placeholder="Planned features and improvements"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="faq">FAQ</label>
+                <textarea id="faq" placeholder="Common questions and answers"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="support">Support/Contact</label>
+                <textarea id="support" placeholder="How to get help or contact maintainers"></textarea>
+            </div>
+            
+            <button type="button" onclick="generateMarkdown()">Generate Markdown</button>
+        </form>
+        
+        <div id="markdownOutput" class="markdown-output"></div>
+    </div>
+
+    <script>
+        function addFeatureField() {
+            const container = document.getElementById('featuresContainer');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = '<input type="text" class="feature" placeholder="Feature description">';
+            container.appendChild(div);
+        }
+        
+        function addTechStackField() {
+            const container = document.getElementById('techStackContainer');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <input type="text" class="techStack" placeholder="Technology name">
+                <input type="text" class="techLink" placeholder="Technology URL">
+            `;
+            container.appendChild(div);
+        }
+        
+        function addPrerequisiteField() {
+            const container = document.getElementById('prerequisitesContainer');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = '<input type="text" class="prerequisite" placeholder="Prerequisite (e.g., Node.js >= 18)">';
+            container.appendChild(div);
+        }
+        
+        function addBadgeField() {
+            const container = document.getElementById('badgesContainer');
+            const div = document.createElement('div');
+            div.className = 'badge-container';
+            div.innerHTML = `
+                <div class="badge-input">
+                    <input type="text" class="badgeName" placeholder="Badge name (e.g., Build)">
+                    <input type="text" class="badgeUrl" placeholder="Badge URL">
+                    <input type="text" class="badgeImageUrl" placeholder="Badge image URL">
+                </div>
+            `;
+            container.appendChild(div);
+        }
+        
+        function generateMarkdown() {
+            // Validate required fields
+            const projectName = document.getElementById('projectName').value.trim();
+            const projectDescription = document.getElementById('projectDescription').value.trim();
+            const problemSolved = document.getElementById('problemSolved').value.trim();
+            const targetUsers = document.getElementById('targetUsers').value.trim();
+            
+            if (!projectName || !projectDescription || !problemSolved || !targetUsers) {
+                alert('Please fill in all required fields (marked with *)');
+                return;
+            }
+            
+            let markdown = `# ${projectName}\n\n`;
+            
+            // Badges
+            const badges = [];
+            const badgeNames = document.getElementsByClassName('badgeName');
+            const badgeUrls = document.getElementsByClassName('badgeUrl');
+            const badgeImageUrls = document.getElementsByClassName('badgeImageUrl');
+            
+            for (let i = 0; i < badgeNames.length; i++) {
+                const name = badgeNames[i].value.trim();
+                const url = badgeUrls[i].value.trim();
+                const imageUrl = badgeImageUrls[i].value.trim();
+                if (name && imageUrl) {
+                    badges.push(url ? `[![${name}](${imageUrl})](${url})` : `![${name}](${imageUrl})`);
+                }
+            }
+            
+            if (badges.length > 0) {
+                markdown += badges.join(' ') + '\n\n';
+            }
+            
+            // About The Project
+            markdown += `## 📌 About The Project\n\n`;
+            markdown += `- ${projectDescription}\n`;
+            markdown += `- ${problemSolved}\n`;
+            markdown += `- ${targetUsers}\n`;
+            
+            const backgroundContext = document.getElementById('backgroundContext').value.trim();
+            if (backgroundContext) {
+                markdown += `- ${backgroundContext}\n`;
+            }
+            
+            // Features
+            const features = Array.from(document.getElementsByClassName('feature'))
+                .map(el => el.value.trim())
+                .filter(val => val !== '');
+            
+            if (features.length > 0) {
+                markdown += `\n### ✅ Features\n\n`;
+                features.forEach(feature => {
+                    markdown += `- ${feature}\n`;
+                });
+            }
+            
+            // Tech Stack
+            const techStackElements = document.getElementsByClassName('techStack');
+            const techLinkElements = document.getElementsByClassName('techLink');
+            const builtWith = [];
+            
+            for (let i = 0; i < techStackElements.length; i++) {
+                const tech = techStackElements[i].value.trim();
+                const link = techLinkElements[i].value.trim();
+                if (tech) {
+                    builtWith.push(link ? `- [${tech}](${link})` : `- ${tech}`);
+                }
+            }
+            
+            if (builtWith.length > 0) {
+                markdown += `\n### 🧱 Built With\n\n`;
+                builtWith.forEach(tech => {
+                    markdown += `${tech}\n`;
+                });
+            }
+            
+            markdown += `\n---\n\n`;
+            
+            // Getting Started
+            markdown += `## 🚀 Getting Started\n\n`;
+            markdown += `Instructions for anyone to set up the project locally.\n\n`;
+            
+            // Prerequisites
+            const prerequisites = Array.from(document.getElementsByClassName('prerequisite'))
+                .map(el => el.value.trim())
+                .filter(val => val !== '');
+            
+            if (prerequisites.length > 0) {
+                markdown += `### 📋 Prerequisites\n\n`;
+                prerequisites.forEach(req => {
+                    markdown += `- ${req}\n`;
+                });
+                markdown += `\n`;
+            }
+            
+            // Installation
+            const installationSteps = document.getElementById('installationSteps').value.trim();
+            if (installationSteps) {
+                markdown += `### 🛠️ Installation\n\n`;
+                markdown += `${installationSteps}\n\n`;
+            }
+            
+            // Confluence Pages
+            const confluencePages = document.getElementById('confluencePages').value.trim();
+            if (confluencePages) {
+                markdown += `${confluencePages}\n\n`;
+            }
+            
+            // Jenkins Build
+            const jenkinsBuild = document.getElementById('jenkinsBuild').value.trim();
+            if (jenkinsBuild) {
+                markdown += `### Build Jenkins\n`;
+                markdown += `${jenkinsBuild}\n\n`;
+            }
+            
+            // Jenkins Deploy
+            const jenkinsDeploy = document.getElementById('jenkinsDeploy').value.trim();
+            if (jenkinsDeploy) {
+                markdown += `### Deploy Jenkins\n`;
+                markdown += `${jenkinsDeploy}\n\n`;
+            }
+            
+            // Local Build
+            const localBuild = document.getElementById('localBuild').value.trim();
+            if (localBuild) {
+                markdown += `### Build Local\n`;
+                markdown += `${localBuild}\n\n`;
+            }
+            
+            // Local Deploy
+            const localDeploy = document.getElementById('localDeploy').value.trim();
+            if (localDeploy) {
+                markdown += `### Deploy Local\n`;
+                markdown += `${localDeploy}\n\n`;
+            }
+            
+            // Screenshots/Demo
+            const screenshots = document.getElementById('screenshots').value.trim();
+            if (screenshots) {
+                markdown += `## 🖼️ Screenshots/Demo\n\n${screenshots}\n`;
+            }
+            
+            // API Documentation
+            const apiDocumentation = document.getElementById('apiDocumentation').value.trim();
+            if (apiDocumentation) {
+                markdown += `\n## 📡 API Documentation\n\n${apiDocumentation}\n`;
+            }
+            
+            // Configuration
+            const configuration = document.getElementById('configuration').value.trim();
+            if (configuration) {
+                markdown += `\n## ⚙️ Configuration\n\n${configuration}\n`;
+            }
+            
+            // Running Tests
+            const runningTests = document.getElementById('runningTests').value.trim();
+            if (runningTests) {
+                markdown += `\n## 🧪 Running Tests\n\n${runningTests}\n`;
+            }
+            
+            // Contributing
+            const contributing = document.getElementById('contributing').value.trim();
+            if (contributing) {
+                markdown += `\n## 🤝 Contributing\n\n${contributing}\n`;
+            }
+            
+            // Code of Conduct
+            const codeOfConduct = document.getElementById('codeOfConduct').value.trim();
+            if (codeOfConduct) {
+                markdown += `\n## 📜 Code of Conduct\n\n${codeOfConduct}\n`;
+            }
+            
+            // License
+            const license = document.getElementById('license').value.trim();
+            if (license) {
+                markdown += `\n## 📄 License\n\nThis project is licensed under the ${license} License.\n`;
+            }
+            
+            // Acknowledgments
+            const acknowledgments = document.getElementById('acknowledgments').value.trim();
+            if (acknowledgments) {
+                markdown += `\n## 🙏 Acknowledgments\n\n${acknowledgments}\n`;
+            }
+            
+            // Roadmap
+            const roadmap = document.getElementById('roadmap').value.trim();
+            if (roadmap) {
+                markdown += `\n## 🗺️ Roadmap\n\n${roadmap}\n`;
+            }
+            
+            // FAQ
+            const faq = document.getElementById('faq').value.trim();
+            if (faq) {
+                markdown += `\n## ❓ FAQ\n\n${faq}\n`;
+            }
+            
+            // Support
+            const support = document.getElementById('support').value.trim();
+            if (support) {
+                markdown += `\n## 💬 Support/Contact\n\n${support}\n`;
+            }
+            
+            // Display the markdown
+            const output = document.getElementById('markdownOutput');
+            output.textContent = markdown;
+            output.style.display = 'block';
+            
+            // Prompt user to copy
+            if (confirm('Markdown generated! Would you like to copy it to your clipboard?')) {
+                navigator.clipboard.writeText(markdown).then(() => {
+                    alert('Markdown copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Could not copy to clipboard. Please manually copy the text.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

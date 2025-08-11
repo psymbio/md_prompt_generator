@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project README Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    textarea, input { width: 100%; margin-bottom: 15px; padding: 8px; }
+    textarea { height: 80px; }
+    button { padding: 10px 15px; font-size: 16px; }
+    pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Fill in Project Details</h1>
+
+  <form id="markdownForm">
+    <h2>📌 About The Project</h2>
+    <label>What the project is and why it exists:</label>
+    <textarea name="about" required placeholder="Example: A task management app to help teams collaborate efficiently."></textarea>
+
+    <label>Problem it solves or its primary goal:</label>
+    <textarea name="goal" placeholder="Example: Reduces email clutter and centralizes team communication."></textarea>
+
+    <label>Target users or domain:</label>
+    <textarea name="users" placeholder="Example: Remote teams, project managers, small businesses."></textarea>
+
+    <label>Any important background or context:</label>
+    <textarea name="context" placeholder="Example: Inspired by challenges faced in coordinating open-source projects."></textarea>
+
+    <h2>✅ Features</h2>
+    <label>Bullet-point list of key features:</label>
+    <textarea name="features" placeholder="Example:\nReal-time chat\nTask assignment\nKanban board\nFile sharing"></textarea>
+
+    <h2>🧱 Built With</h2>
+    <label>Tech stack (comma-separated, format: Name|Link):</label>
+    <textarea name="tech" placeholder="Example: React|https://react.dev, Node.js|https://nodejs.org, MongoDB|https://www.mongodb.com"></textarea>
+
+    <h2>🚀 Getting Started</h2>
+    <h3>📋 Prerequisites</h3>
+    <textarea name="prerequisites" placeholder="Example:\nNode.js >= 18\nMongoDB installed\nGitHub account"></textarea>
+
+    <h3>🛠️ Installation</h3>
+    <textarea name="installation" placeholder="Example:\n1. Clone the repo\n2. Run npm install\n3. Run npm start"></textarea>
+
+    <label>Confluence pages (links):</label>
+    <textarea name="confluence" placeholder="Example:\nhttps://confluence.company.com/project-overview"></textarea>
+
+    <h3>Build Jenkins</h3>
+    <textarea name="buildJenkins" placeholder="Example:\n1. Navigate to Jenkins dashboard\n2. Select 'Build Project' job\n3. Click 'Build Now'"></textarea>
+    <label>Pipeline Link:</label>
+    <input type="text" name="buildPipeline" placeholder="Example: https://jenkins.company.com/job/build-project" />
+
+    <h3>Deploy Jenkins</h3>
+    <textarea name="deployJenkins" placeholder="Example:\n1. Go to Jenkins dashboard\n2. Select 'Deploy Project' job\n3. Click 'Build Now'"></textarea>
+    <label>Pipeline Link:</label>
+    <input type="text" name="deployPipeline" placeholder="Example: https://jenkins.company.com/job/deploy-project" />
+
+    <h3>Build Local</h3>
+    <textarea name="buildLocal" placeholder="Example:\nRun npm run build"></textarea>
+
+    <h3>Deploy Local</h3>
+    <textarea name="deployLocal" placeholder="Example:\nRun npm run deploy"></textarea>
+
+    <button type="submit">Generate Markdown</button>
+  </form>
+
+  <h2>Generated Markdown:</h2>
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('markdownForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      const md = `
+## 📌 About The Project
+
+- ${data.about}
+- ${data.goal}
+- ${data.users}
+- ${data.context}
+
+### ✅ Features
+
+${data.features.split('\n').map(f => `- ${f}`).join('\n')}
+
+### 🧱 Built With
+
+${data.tech.split(',').map(t => {
+  const [name, link] = t.split('|').map(s => s.trim());
+  return `- [${name}](${link})`;
+}).join('\n')}
+
+---
+
+## 🚀 Getting Started
+
+### 📋 Prerequisites
+${data.prerequisites}
+
+### 🛠️ Installation
+${data.installation}
+
+**Confluence Pages:**  
+${data.confluence}
+
+### Build Jenkins
+${data.buildJenkins}  
+[Pipeline Link](${data.buildPipeline})
+
+### Deploy Jenkins
+${data.deployJenkins}  
+[Pipeline Link](${data.deployPipeline})
+
+### Build Local
+${data.buildLocal}
+
+### Deploy Local
+${data.deployLocal}
+      `.trim();
+
+      document.getElementById('output').textContent = md;
+    });
+  </script>
+</body>
+</html>
