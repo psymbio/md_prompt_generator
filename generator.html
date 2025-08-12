@@ -362,7 +362,7 @@
             }
             
             // About The Project
-            markdown += `## 📌 About The Project\n\n`;
+            markdown += `## About The Project\n\n`;
             markdown += `- ${projectDescription}\n`;
             markdown += `- ${problemSolved}\n`;
             markdown += `- ${targetUsers}\n`;
@@ -378,7 +378,7 @@
                 .filter(val => val !== '');
             
             if (features.length > 0) {
-                markdown += `\n### ✅ Features\n\n`;
+                markdown += `\n### Features\n\n`;
                 features.forEach(feature => {
                     markdown += `- ${feature}\n`;
                 });
@@ -398,7 +398,7 @@
             }
             
             if (builtWith.length > 0) {
-                markdown += `\n### 🧱 Built With\n\n`;
+                markdown += `\n### Built With\n\n`;
                 builtWith.forEach(tech => {
                     markdown += `${tech}\n`;
                 });
@@ -407,7 +407,7 @@
             markdown += `\n---\n\n`;
             
             // Getting Started
-            markdown += `## 🚀 Getting Started\n\n`;
+            markdown += `## Getting Started\n\n`;
             markdown += `Instructions for anyone to set up the project locally.\n\n`;
             
             // Prerequisites
@@ -416,7 +416,7 @@
                 .filter(val => val !== '');
             
             if (prerequisites.length > 0) {
-                markdown += `### 📋 Prerequisites\n\n`;
+                markdown += `### Prerequisites\n\n`;
                 prerequisites.forEach(req => {
                     markdown += `- ${req}\n`;
                 });
@@ -426,7 +426,7 @@
             // Installation
             const installationSteps = document.getElementById('installationSteps').value.trim();
             if (installationSteps) {
-                markdown += `### 🛠️ Installation\n\n`;
+                markdown += `### Installation\n\n`;
                 markdown += `${installationSteps}\n\n`;
             }
             
@@ -467,67 +467,67 @@
             // Screenshots/Demo
             const screenshots = document.getElementById('screenshots').value.trim();
             if (screenshots) {
-                markdown += `## 🖼️ Screenshots/Demo\n\n${screenshots}\n`;
+                markdown += `## Screenshots/Demo\n\n${screenshots}\n`;
             }
             
             // API Documentation
             const apiDocumentation = document.getElementById('apiDocumentation').value.trim();
             if (apiDocumentation) {
-                markdown += `\n## 📡 API Documentation\n\n${apiDocumentation}\n`;
+                markdown += `\n## API Documentation\n\n${apiDocumentation}\n`;
             }
             
             // Configuration
             const configuration = document.getElementById('configuration').value.trim();
             if (configuration) {
-                markdown += `\n## ⚙️ Configuration\n\n${configuration}\n`;
+                markdown += `\n## Configuration\n\n${configuration}\n`;
             }
             
             // Running Tests
             const runningTests = document.getElementById('runningTests').value.trim();
             if (runningTests) {
-                markdown += `\n## 🧪 Running Tests\n\n${runningTests}\n`;
+                markdown += `\n## Running Tests\n\n${runningTests}\n`;
             }
             
             // Contributing
             const contributing = document.getElementById('contributing').value.trim();
             if (contributing) {
-                markdown += `\n## 🤝 Contributing\n\n${contributing}\n`;
+                markdown += `\n## Contributing\n\n${contributing}\n`;
             }
             
             // Code of Conduct
             const codeOfConduct = document.getElementById('codeOfConduct').value.trim();
             if (codeOfConduct) {
-                markdown += `\n## 📜 Code of Conduct\n\n${codeOfConduct}\n`;
+                markdown += `\n## Code of Conduct\n\n${codeOfConduct}\n`;
             }
             
             // License
             const license = document.getElementById('license').value.trim();
             if (license) {
-                markdown += `\n## 📄 License\n\nThis project is licensed under the ${license} License.\n`;
+                markdown += `\n## License\n\nThis project is licensed under the ${license} License.\n`;
             }
             
             // Acknowledgments
             const acknowledgments = document.getElementById('acknowledgments').value.trim();
             if (acknowledgments) {
-                markdown += `\n## 🙏 Acknowledgments\n\n${acknowledgments}\n`;
+                markdown += `\n## Acknowledgments\n\n${acknowledgments}\n`;
             }
             
             // Roadmap
             const roadmap = document.getElementById('roadmap').value.trim();
             if (roadmap) {
-                markdown += `\n## 🗺️ Roadmap\n\n${roadmap}\n`;
+                markdown += `\n## Roadmap\n\n${roadmap}\n`;
             }
             
             // FAQ
             const faq = document.getElementById('faq').value.trim();
             if (faq) {
-                markdown += `\n## ❓ FAQ\n\n${faq}\n`;
+                markdown += `\n## FAQ\n\n${faq}\n`;
             }
             
             // Support
             const support = document.getElementById('support').value.trim();
             if (support) {
-                markdown += `\n## 💬 Support/Contact\n\n${support}\n`;
+                markdown += `\n## Support/Contact\n\n${support}\n`;
             }
             
             // Display the markdown
